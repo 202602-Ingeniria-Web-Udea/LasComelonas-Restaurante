@@ -21,7 +21,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# variables de entorno (NUNCA subir el .env real)
+# variables de entorno
 .env
 .env*.local
 
