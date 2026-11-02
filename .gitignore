@@ -24,6 +24,7 @@ yarn-error.log*
 # variables de entorno
 .env
 .env*.local
+!.env.example
 
 # vercel
 .vercel
