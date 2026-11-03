@@ -1,6 +1,6 @@
 # Sakura-ya
 
-Sakura-ya es un sistema web para gestionar un restaurante japonés de sushi y ramen. Lo utilizan los empleados y el administrador para registrar los pedidos de los clientes, cobrarlos, seguir su entrega y llevar el control del inventario.
+Sistema de gestión para un restaurante de comida japonesa donde el personal del restaurante puede gestionar los pedidos, junto con el inventario de alimentos.
 
 ## Aplicación en línea
 
