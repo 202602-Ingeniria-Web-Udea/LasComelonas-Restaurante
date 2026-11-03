@@ -51,10 +51,11 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card className='overflow-hidden p-0'>
         <CardContent className='grid p-0 md:grid-cols-2'>
-          <form className='p-6 md:p-8' onSubmit={handleSubmit}>
+          <form className='p-6 md:p-9' onSubmit={handleSubmit}>
             <FieldGroup>
-              <div className='flex flex-col items-center gap-2 text-center'>
-                <h1 className='text-2xl font-bold'>Bienvenido de nuevo</h1>
+              <div className='mb-2 flex flex-col items-center gap-3 text-center'>
+                <span className='hanko-seal flex size-12 items-center justify-center text-sm text-[#9f3f35] md:hidden'>桜屋</span>
+                <h1 className='text-2xl font-semibold'>Bienvenido de nuevo</h1>
                 <p className='text-balance text-muted-foreground'>
                   Inicia sesión con tu cuenta del personal de Sakura-ya
                 </p>
@@ -91,10 +92,10 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
               </Field>
             </FieldGroup>
           </form>
-          <div className='hidden flex-col items-center justify-center gap-3 bg-primary p-8 text-primary-foreground md:flex'>
-            <span className='text-7xl font-bold'>桜屋</span>
-            <span className='text-xl font-semibold'>Sakura-ya</span>
-            <span className='text-sm opacity-80'>Sushi y ramen</span>
+          <div className='seigaiha-stripe relative hidden flex-col items-center justify-center gap-3 overflow-hidden bg-secondary p-8 text-foreground md:flex'>
+            <span className='hanko-seal relative z-10 flex size-28 items-center justify-center text-3xl text-[#9f3f35]'>桜屋</span>
+            <span className='relative z-10 font-heading text-2xl font-semibold'>Sakura-ya</span>
+            <span className='relative z-10 text-sm text-muted-foreground'>Sushi y ramen</span>
           </div>
         </CardContent>
       </Card>

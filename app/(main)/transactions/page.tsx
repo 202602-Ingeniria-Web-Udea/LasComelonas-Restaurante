@@ -76,14 +76,12 @@ export default async function TransactionsPage({ searchParams }: PageProps<'/tra
         <NewTransactionDialog master={selectedMaster} />
       </PageHeader>
 
-      <div className='grid grid-cols-2 gap-4 lg:grid-cols-4'>
+      <div className='grid grid-cols-2 gap-2 lg:grid-cols-4'>
         {summary.map((item) => (
-          <Card key={item.title} size='sm'>
-            <CardHeader>
-              <CardDescription>{item.title}</CardDescription>
-            </CardHeader>
-            <CardContent className='text-2xl font-semibold tabular-nums'>{item.value}</CardContent>
-          </Card>
+          <div key={item.title} className='summary-label flex min-h-20 flex-col justify-between border-l-2 border-l-primary px-3 py-2'>
+            <span className='text-[0.65rem] font-medium tracking-[0.12em] text-muted-foreground uppercase'>{item.title}</span>
+            <span className='font-heading text-2xl tabular-nums'>{item.value}</span>
+          </div>
         ))}
       </div>
 

@@ -33,6 +33,11 @@ export function NavMain({
             <SidebarMenuButton
               tooltip={item.title}
               isActive={pathname.startsWith(item.url)}
+              className={`rounded-none border-l-2 ${
+                pathname.startsWith(item.url)
+                  ? 'border-sidebar-primary bg-sidebar-accent text-sidebar-accent-foreground'
+                  : 'border-transparent'
+              }`}
               render={<Link href={item.url} />}
             >
               {item.icon}

@@ -7,12 +7,12 @@ export type PaymentMethod = 'CREDIT_CARD' | 'DEBIT_CARD' | 'PAYPAL' | 'CASH';
 export const TAX_RATE = 0.08;
 
 export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
-  PENDING: '⏳ Pendiente de pago',
-  PAID: '💴 Pagado',
-  COMPLETED: '🍱 Listo',
-  SHIPPED: '🛵 En camino',
-  DELIVERED: '✅ Entregado',
-  CANCELED: '✖️ Cancelado',
+  PENDING: 'Pendiente de pago',
+  PAID: 'Pagado',
+  COMPLETED: 'Listo',
+  SHIPPED: 'En camino',
+  DELIVERED: 'Entregado',
+  CANCELED: 'Cancelado',
 };
 
 // Orden en que se muestran los estados en el resumen de la página de pedidos.

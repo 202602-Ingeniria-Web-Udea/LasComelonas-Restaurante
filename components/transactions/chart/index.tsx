@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/chart';
 import type { DailyBalance } from '@/lib/inventory';
 
-// El color sale de la variable --chart-1 definida en globals.css (bermellón).
+// El color sakura y el relleno en degradado mantienen la gráfica ligera sobre el papel.
 const chartConfig = {
   balance: {
     label: 'Saldo',
@@ -28,15 +28,20 @@ export function BalanceChart({ data }: { data: DailyBalance[] }) {
   return (
     <ChartContainer config={chartConfig} className='aspect-auto h-64 w-full'>
       <AreaChart data={data} margin={{ left: 0, right: 12, top: 8 }}>
-        <CartesianGrid vertical={false} />
+      <defs>
+        <linearGradient id='balanceFill' x1='0' x2='0' y1='0' y2='1'>
+          <stop offset='0%' stopColor='var(--color-balance)' stopOpacity={0.28} />
+          <stop offset='95%' stopColor='var(--color-balance)' stopOpacity={0} />
+        </linearGradient>
+      </defs>
+      <CartesianGrid vertical={false} stroke='var(--border)' strokeOpacity={0.55} />
         <XAxis dataKey='label' tickLine={false} axisLine={false} tickMargin={8} minTickGap={24} />
         <YAxis tickLine={false} axisLine={false} width={40} allowDecimals={false} />
         <ChartTooltip cursor={false} content={<ChartTooltipContent indicator='line' />} />
         <Area
           dataKey='balance'
           type='linear'
-          fill='var(--color-balance)'
-          fillOpacity={0.15}
+          fill='url(#balanceFill)'
           stroke='var(--color-balance)'
           strokeWidth={2}
         />

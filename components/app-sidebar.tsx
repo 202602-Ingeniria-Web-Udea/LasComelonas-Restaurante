@@ -56,7 +56,7 @@ export function AppSidebar({
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size='lg' render={<Link href='/orders' />}>
-              <div className='flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sm font-bold text-sidebar-primary-foreground'>
+              <div className='hanko-seal flex aspect-square size-8 items-center justify-center bg-sidebar-primary text-sm font-semibold text-sidebar-primary-foreground'>
                 桜
               </div>
               <div className='grid flex-1 text-left text-sm leading-tight'>

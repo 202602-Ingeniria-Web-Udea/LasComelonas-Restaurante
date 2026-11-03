@@ -53,7 +53,7 @@ function DialogContent({
       <DialogPrimitive.Popup
         data-slot="dialog-content"
         className={cn(
-          "fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-6 rounded-xl bg-popover p-6 text-sm text-popover-foreground ring-1 ring-foreground/10 duration-100 outline-none sm:max-w-md data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+          "fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-6 rounded-md border bg-popover p-6 text-sm text-popover-foreground duration-100 outline-none sm:max-w-md data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
           className
         )}
         {...props}
@@ -117,13 +117,18 @@ function DialogFooter({
   )
 }
 
-function DialogTitle({ className, ...props }: DialogPrimitive.Title.Props) {
+function DialogTitle({ className, children, ...props }: DialogPrimitive.Title.Props) {
   return (
     <DialogPrimitive.Title
       data-slot="dialog-title"
-      className={cn("font-heading leading-none font-medium", className)}
+      className={cn("flex items-center gap-2 font-heading leading-none font-medium", className)}
       {...props}
-    />
+    >
+      <svg aria-hidden="true" className="size-4 shrink-0 text-primary/70" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2.5c1.7 2.1 2.5 3.8 2.1 5.2 1.4-1.1 3.2-1.3 5.5-.7-.5 2.3-1.6 3.8-3.3 4.4 1.8.4 3.1 1.7 4 3.8-2.2 1-4.1-1-5.5 0 .7 1.6.4 3.4-.8 5.4-2-1.2-3-2.8-3-4.6-.8 1.7-2.4 2.6-4.7 2.8-.4-2.4.2-4.2 1.7-5.4-1.8.3-3.4-.4-5-2.1 1.7-1.7 3.4-2.4 5.2-2-1.4-1.2-1.9-3-1.6-5.4 2.4.1 4.1 1 4.9 2.6-.3-1.4-.1-2.7.5-4Z" />
+      </svg>
+      {children}
+    </DialogPrimitive.Title>
   )
 }
 

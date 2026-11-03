@@ -36,6 +36,15 @@ const statusVariant: Record<OrderStatus, 'default' | 'secondary' | 'outline' | '
   CANCELED: 'destructive',
 };
 
+const statusClassName: Record<OrderStatus, string> = {
+  PENDING: 'border-primary/45 bg-transparent text-foreground',
+  PAID: 'border-transparent bg-secondary text-secondary-foreground',
+  COMPLETED: 'border-primary bg-primary text-primary-foreground',
+  SHIPPED: 'border-chart-3/35 bg-chart-3/10 text-chart-3',
+  DELIVERED: 'border-chart-2/35 bg-chart-2/10 text-foreground',
+  CANCELED: 'border-transparent bg-muted text-muted-foreground line-through',
+};
+
 export function OrdersTable({ orders }: { orders: OrderRow[] }) {
   return (
     <Table>
@@ -68,7 +77,7 @@ export function OrdersTable({ orders }: { orders: OrderRow[] }) {
                 {formatCurrency(order.totalAmount)}
               </TableCell>
               <TableCell>
-                <Badge variant={statusVariant[order.status]}>
+                <Badge variant={statusVariant[order.status]} className={statusClassName[order.status]}>
                   {ORDER_STATUS_LABELS[order.status]}
                 </Badge>
               </TableCell>
