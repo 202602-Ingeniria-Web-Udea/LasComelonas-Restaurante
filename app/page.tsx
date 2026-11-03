@@ -45,7 +45,7 @@ export default function Home() {
           </div>
         ))}
       </div>
-      <p className='text-xs text-muted-foreground'>© 2023 Sakura-ya. Todos los derechos reservados.</p>
+      <p className='text-xs text-muted-foreground'>© 2026 Sakura-ya. Todos los derechos reservados.</p>
     </main>
   );
 }
