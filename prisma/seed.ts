@@ -49,14 +49,14 @@ async function main() {
 
   const admin = await prisma.user.create({
     data: {
-      name: 'Hana',
-      lastName: 'Tanaka',
+      name: 'Light',
+      lastName: 'Yagami',
       email: 'admin@sakuraya.com',
       password: await bcrypt.hash('Sakura2026*', 10),
       role: 'ADMIN',
       profile: {
         create: {
-          image: 'https://api.dicebear.com/9.x/notionists/svg?seed=Hana&backgroundColor=f4d6c9',
+          image: '',
           address: '',
           phone: '',
         },
@@ -65,14 +65,14 @@ async function main() {
   });
   const staffUser = await prisma.user.create({
     data: {
-      name: 'Kenji',
-      lastName: 'Morales',
+      name: 'Misa',
+      lastName: 'Amane',
       email: 'usuario@sakuraya.com',
       password: await bcrypt.hash('Ramen2026*', 10),
       role: 'USER',
       profile: {
         create: {
-          image: 'https://api.dicebear.com/9.x/notionists/svg?seed=Kenji&backgroundColor=d9e2f2',
+          image: '',
           address: '',
           phone: '',
         },

@@ -9,13 +9,11 @@ import { prisma } from '@/lib/prisma';
 export default async function UsersPage() {
   const currentUser = await getCurrentUser();
   if (!currentUser) redirect('/login');
-  // Solo el ADMIN puede entrar. Si un USER escribe la URL a mano, se le envía a Pedidos.
   if (currentUser.role !== 'ADMIN') redirect('/orders');
 
   const users = await prisma.user.findMany({
     where: { deleted: false },
     orderBy: { createdAt: 'asc' },
-    // La contraseña nunca se envía a la página.
     select: {
       id: true,
       name: true,
@@ -23,6 +21,7 @@ export default async function UsersPage() {
       email: true,
       role: true,
       createdAt: true,
+      profile: { select: { image: true } },
     },
   });
 
