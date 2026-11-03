@@ -10,7 +10,6 @@ const updateUserSchema = editUserSchema.extend({
   userId: z.string().min(1, 'Falta el usuario a editar.'),
 });
 
-// Solo un ADMIN puede crear o editar usuarios. Devuelve la respuesta de error o null si pasa.
 async function requireAdmin() {
   const currentUser = await getCurrentUser();
   if (!currentUser) {
@@ -45,12 +44,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         lastName: lastName || null,
         email,
         role,
-        // 10 rondas de bcrypt: suficiente para un proyecto académico y rápido al iniciar sesión.
         password: await bcrypt.hash(password, 10),
-        // La foto vive en Profile. Este proyecto no maneja dirección ni teléfono del personal.
         profile: image ? { create: { image, address: '', phone: '' } } : undefined,
       },
-      // Nunca se devuelve el hash de la contraseña al navegador.
       select: { id: true, email: true, role: true },
     });
     return NextResponse.json({ user: createdUser }, { status: 201 });
@@ -71,9 +67,8 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
   if (!parsed.success) {
     return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 });
   }
-  const { userId, role } = parsed.data;
+  const { userId, name, lastName, image, role } = parsed.data;
 
-  // Evita que el administrador se quite su propio rol y deje el sistema sin ADMIN.
   if (userId === currentUser.id && role !== 'ADMIN') {
     return NextResponse.json(
       { error: 'No puedes quitarte el rol de administrador a ti mismo.' },
@@ -84,12 +79,23 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
   try {
     const updatedUser = await prisma.user.update({
       where: { id: userId },
-      data: { role },
+      data: {
+        name,
+        lastName: lastName || null,
+        role,
+        // upsert: si el usuario ya tiene Profile se actualiza la foto; si no, se crea.
+        // Una URL vacía deja el perfil sin foto y el sidebar muestra las iniciales.
+        profile: {
+          upsert: {
+            create: { image, address: '', phone: '' },
+            update: { image },
+          },
+        },
+      },
       select: { id: true, email: true, role: true },
     });
     return NextResponse.json({ user: updatedUser }, { status: 200 });
   } catch (error) {
-    // P2025: el registro a actualizar no existe.
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
       return NextResponse.json({ error: 'El usuario no existe.' }, { status: 404 });
     }

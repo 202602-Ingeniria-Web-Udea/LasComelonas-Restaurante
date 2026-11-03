@@ -1,8 +1,5 @@
 import * as z from 'zod';
 
-// Esquemas de zod compartidos: los formularios los usan con zodResolver y las API routes
-// los vuelven a aplicar, porque el servidor nunca debe confiar en lo que envía el navegador.
-
 export const masterSchema = z.object({
   name: z
     .string()
@@ -70,8 +67,11 @@ export const userSchema = z.object({
   image: z.union([z.url('Ingresa una URL válida.'), z.literal('')]),
 });
 
-export const editUserSchema = z.object({
-  role: roleSchema,
+export const editUserSchema = userSchema.pick({
+  name: true,
+  lastName: true,
+  image: true,
+  role: true,
 });
 
 export const orderSchema = z.object({

@@ -16,7 +16,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
@@ -32,26 +39,48 @@ import { editUserSchema } from '@/lib/validations';
 
 type EditUserFormValues = z.infer<typeof editUserSchema>;
 
-export function EditUserDialog({
-  user,
-}: {
-  user: { id: string; email: string; role: 'ADMIN' | 'USER' };
-}) {
+type EditableUser = {
+  id: string;
+  email: string;
+  name: string;
+  lastName: string;
+  image: string;
+  role: 'ADMIN' | 'USER';
+};
+
+const textFields = [
+  { name: 'name', label: 'Nombre', type: 'text', placeholder: 'Hana', description: '' },
+  { name: 'lastName', label: 'Apellido', type: 'text', placeholder: 'Tanaka', description: '' },
+  {
+    name: 'image',
+    label: 'Foto (URL)',
+    type: 'url',
+    placeholder: 'https://...',
+    description: 'Enlace directo a la imagen. Si se deja vacía, se muestran las iniciales.',
+  },
+] as const;
+
+function getCurrentValues(user: EditableUser): EditUserFormValues {
+  return {
+    name: user.name,
+    lastName: user.lastName,
+    image: user.image,
+    role: user.role,
+  };
+}
+
+export function EditUserDialog({ user }: { user: EditableUser }) {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const form = useForm<EditUserFormValues>({
     resolver: zodResolver(editUserSchema),
-    // El dropdown arranca con el rol que el usuario tiene actualmente.
-    defaultValues: {
-      role: user.role,
-    },
+    defaultValues: getCurrentValues(user),
   });
 
   function handleOpenChange(isOpen: boolean) {
     setOpen(isOpen);
-    // Al abrir se vuelve a tomar el rol actual, por si cambió desde la última vez.
-    if (isOpen) form.reset({ role: user.role });
+    if (isOpen) form.reset(getCurrentValues(user));
   }
 
   async function onSubmit(values: EditUserFormValues) {
@@ -62,14 +91,14 @@ export function EditUserDialog({
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId: user.id, role: values.role }),
+        body: JSON.stringify({ userId: user.id, ...values }),
       });
       const data = await response.json();
       if (!response.ok) {
         toast.error(data.error ?? 'No fue posible editar el usuario.');
         return;
       }
-      toast.success(`Rol de ${user.email} actualizado.`);
+      toast.success(`Usuario ${user.email} actualizado.`);
       setOpen(false);
       router.refresh();
     } catch {
@@ -89,18 +118,43 @@ export function EditUserDialog({
           </Button>
         }
       />
-      <DialogContent className='sm:max-w-sm'>
+      <DialogContent className='max-h-[90svh] overflow-y-auto sm:max-w-md'>
         <form onSubmit={form.handleSubmit(onSubmit)} className='grid gap-6'>
           <DialogHeader>
             <DialogTitle>Editar usuario</DialogTitle>
-            <DialogDescription>Cambia el rol asignado a este usuario.</DialogDescription>
+            <DialogDescription>Cambia el nombre, la foto o el rol de este usuario.</DialogDescription>
           </DialogHeader>
-          <FieldGroup>
+          <FieldGroup className='gap-5'>
             <Field>
               <FieldLabel>Correo</FieldLabel>
-              {/* El correo se muestra como texto: en este diálogo solo se edita el rol. */}
               <p className='font-medium break-all'>{user.email}</p>
             </Field>
+            {textFields.map((textField) => (
+              <Controller
+                key={textField.name}
+                name={textField.name}
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={`edit-${textField.name}-${user.id}`}>
+                      {textField.label}
+                    </FieldLabel>
+                    <Input
+                      {...field}
+                      id={`edit-${textField.name}-${user.id}`}
+                      type={textField.type}
+                      placeholder={textField.placeholder}
+                      aria-invalid={fieldState.invalid}
+                      autoComplete='off'
+                    />
+                    {textField.description && (
+                      <FieldDescription>{textField.description}</FieldDescription>
+                    )}
+                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                  </Field>
+                )}
+              />
+            ))}
             <Controller
               name='role'
               control={form.control}
