@@ -4,11 +4,11 @@ Sakura-ya es un sistema web para gestionar un restaurante japonés de sushi y ra
 
 ## Aplicación en línea
 
-??
+Link Vercel: https://lascomelonas-restaurante.vercel.app/
 
 ## Integrantes
 
-- Maria de los Angeles Agudelo Agudelo
+- María de los Ángeles Agudelo Agudelo
 - Luisa María Soto Arias
 
 ## Funcionalidades
